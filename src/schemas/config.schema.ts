@@ -8,7 +8,7 @@ const configSchema = Joi.object({
     .default('development'),
   DB_HOST: Joi.string().required(),
   DB_PASSWORD: Joi.string().required(),
-  PORT: Joi.string().required()
+  DB_PORT: Joi.string().required()
 })
   .unknown()
   .required();

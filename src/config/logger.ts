@@ -1,7 +1,7 @@
 import * as winston from 'winston';
 import config from '.';
 
-const customFormat = winston.format((info) => {
+const customFormat = winston.format((info: any) => {
   info.message = `${new Date().toISOString()} ${info.message}`;
   return info;
 });
