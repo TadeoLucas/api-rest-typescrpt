@@ -6,9 +6,9 @@ const configSchema = Joi.object({
     .allow('testing')
     .allow('production')
     .default('development'),
-  PRESCRIPTIONS_SERVICE_MONGO_USERNAME: Joi.string().required(),
-  PRESCRIPTIONS_SERVICE_MONGO_PASSWORD: Joi.string().required(),
-  SERVER_PORT: Joi.string().required()
+  DB_HOST: Joi.string().required(),
+  DB_PASSWORD: Joi.string().required(),
+  PORT: Joi.string().required()
 })
   .unknown()
   .required();
