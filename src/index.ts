@@ -1,16 +1,19 @@
 import  express from "express"
 import logger from "./config/logger"
 
-import dotenv from 'dotenv' // preguntar
+import routerUser from "./routes/users"
+
+const PORT = process.env.DB_PORT || 3001
 
 const app = express()
 
 app.use(express.json())
 
-const PORT = process.env.DB_PORT || 3001
+app.use('/users', routerUser)
+
 
 app.get('/', (_, res) => {
-  logger.info('init-root')
+  logger.info('init-root-reggae')
   res.send('hollo word')
 })
 
