@@ -1,7 +1,7 @@
 
 import logger from "./config/logger"
 import { app } from "./app"
-import connection from "./model/db"
+import connection from "./config/db"
 import http from 'http';
 const server = http.createServer(app);
 
@@ -10,7 +10,7 @@ const PORT = process.env.DB_PORT || 3001
 
 
 
-connection.sync().then(()=>{
+connection.sync({force:true}).then(()=>{
   server.listen(3001, () => logger.info(`it´s live XD:::PORT: ${PORT}`));
 }).catch((error) => logger.error(`ERROR db.sync: __________ ${error}`));
 

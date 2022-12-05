@@ -10,7 +10,8 @@ import i18next from 'i18next';
 import backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
 
-import routerUser from "./routes/users";
+import {userRoutes} from "./routes/users.routes";
+import {roleRoutes} from './routes/role.routes';
 
 
 i18next
@@ -48,12 +49,13 @@ app.use(express.json());
 app.use(express.urlencoded({extended: true})) 
 app.use(cors());
 
+
+app.use('/users', userRoutes);
+app.use('/roles', roleRoutes);
+// app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 app.get('/', (_req, res) => {
   logger.info('init-root-reggae')
-  res.send('hollo word')
+  res.send('hello word')
 })
-
-app.use('/users', routerUser);
-// app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 
 export { app };

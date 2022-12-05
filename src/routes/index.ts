@@ -1,12 +1,14 @@
-import Router from 'express';
+// import Router from 'express';
 
-import routerUser from './users'
-import routerRole from './role'
+// import {routerUser} from './users.routes'
+// import {roleRouter} from './role.routes'
 
-const router = Router();
+// const router = Router();
 
 
-router.use("/user", routerUser);
-router.use("role", routerRole)
+// router.use("/user", routerUser);
+// router.use("/role", roleRouter)
 
-module.exports = router;
+// export {
+//   router
+// }
