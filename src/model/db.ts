@@ -1,9 +1,5 @@
 
 import { Sequelize } from "sequelize";
-// import { Connection } from "sequelize/types/dialects/abstract/connection-manager";
-// import User from "./user";
-// import Role from "./role";
-// import config from '../config/index';
 
 
 const { DB_PASS, DB_HOST, DB_NAME} = process.env;
@@ -14,8 +10,5 @@ const connection = new Sequelize('consulting' , 'root', DB_PASS, {
   dialect: "mysql"
 })
 
-
-// Role.hasMany(User);
-// User.belongsTo(Role);
 
 export default connection;

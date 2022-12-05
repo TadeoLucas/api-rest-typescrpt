@@ -1,4 +1,5 @@
 import connection  from "./db";
+import User from "./user";
 import { DataType } from "sequelize-typescript";
 import { Model, Optional, Sequelize } from "sequelize";
 import { v4 as uuidv4} from 'uuid';
@@ -43,5 +44,14 @@ Role.beforeCreate((role)=>{
   role.id = uuidv4()
 })
 
+Role.hasMany(User, {
+  foreignKey: 'userId',
+  onDelete: 'NO ACTION'
+});
+User.belongsTo(Role, {
+  foreignKey: 'userId',
+  onDelete: 'NO ACTION'
+}
+  );
 
 export default Role
