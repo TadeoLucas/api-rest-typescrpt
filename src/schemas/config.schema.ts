@@ -7,7 +7,7 @@ const configSchema = Joi.object({
     .allow('production')
     .default('development'),
   DB_HOST: Joi.string().required(),
-  DB_PASSWORD: Joi.string().required(),
+  DB_PASS: Joi.string().required(),
   DB_PORT: Joi.string().required()
 })
   .unknown()

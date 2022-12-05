@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Application } from 'express';
 // import 'express-async-errors';
 // import { json } from 'body-parser';
 import cors from 'cors';
@@ -24,7 +24,7 @@ i18next
 });
 
 
-const app = express();
+const app: Application = express();
 
 app.use(middleware.handle(i18next)); //we set i18n middleware for all routes
 
@@ -45,7 +45,7 @@ app.use(
 );
 
 app.use(express.json());
-// app.use(express.urlencoded({extended: false})) // permite recivir datos tipo html
+app.use(express.urlencoded({extended: true})) 
 app.use(cors());
 
 app.get('/', (_req, res) => {

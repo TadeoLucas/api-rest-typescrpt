@@ -13,13 +13,8 @@ if (error) {
 }
 
 const config = {
-  serverPort: envVars.SERVER_PORT,
+  serverPort: envVars.DB_PORT,
   nodeEnv: envVars.NODE_ENV,
-
-  external: {
-    patientHost: envVars.PATIENT_HOST,
-    clinicHistoryHost: envVars.CLINIC_HISTORY_V2_HOST
-  }
 };
 
 export default config;

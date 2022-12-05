@@ -1,6 +1,6 @@
 import { RequestHandler } from "express";
 import logger from "../config/logger";
-import { User } from "../model/user";
+import  User  from "../model/user";
 
 export const getUser: RequestHandler = async (_req, res) => {
   try{
@@ -8,6 +8,19 @@ export const getUser: RequestHandler = async (_req, res) => {
     res.status(200).json(users)
   }catch(err){
     logger.error(`error controler guetUsers ${err}`)
+    
+  }
+}
+
+export const createUser: RequestHandler = async (req, res) => {
+  try{
+    const userForCreate = req.body;
+    if(userForCreate){
+      const userCreated = await User.create<User>(userForCreate)
+      res.status(201).json(userCreated)
+    }
+  }catch(err){
+    logger.error(`error controler createUser ${err}`)
     
   }
 }

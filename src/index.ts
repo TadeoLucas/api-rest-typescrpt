@@ -1,17 +1,18 @@
-import  express from "express"
+
 import logger from "./config/logger"
 import { app } from "./app"
-
+import connection from "./model/db"
+import http from 'http';
+const server = http.createServer(app);
 
 
 const PORT = process.env.DB_PORT || 3001
 
 
 
-
-app.listen(PORT, () => {
-  logger.info(`it´s live XD:::PORT: ${PORT}`)
-})
+connection.sync().then(()=>{
+  server.listen(3001, () => logger.info(`it´s live XD:::PORT: ${PORT}`));
+}).catch((error) => logger.error(`ERROR db.sync: __________ ${error}`));
 
 /*
   npm ts-standard -D -E

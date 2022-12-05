@@ -1,9 +1,10 @@
 import express from "express"
+import { createUser, getUser } from "../controler/user"
 
-const router = express.Router()
+const routerUser = express.Router()
 
-router.get('all', (_req, res) => {
-  res.send('database is not created yet')
-})
+routerUser.get('/allUsers', getUser)
 
-export default router
+routerUser.post('/create', createUser)
+
+export default routerUser
