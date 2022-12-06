@@ -6,12 +6,12 @@ import http from 'http';
 const server = http.createServer(app);
 
 
-const PORT = process.env.DB_PORT || 3001
+const PORT = process.env.PORT || 3001
 
 
 
-connection.sync({force:true}).then(()=>{
-  server.listen(3001, () => logger.info(`it´s live XD:::PORT: ${PORT}`));
+connection.sync().then(()=>{
+  server.listen(PORT, () => logger.info(`it´s live XD:::PORT: ${PORT}`));
 }).catch((error) => logger.error(`ERROR db.sync: __________ ${error}`));
 
 /*

@@ -2,7 +2,7 @@ import { RequestHandler } from "express";
 import logger from "../../config/logger";
 import  User  from "./user.model";
 
-export const getUser: RequestHandler = async (_req, res) => {
+export const getUsers: RequestHandler = async (_req, res) => {
   try{
     const users = await User.findAll();
     res.status(200).json(users)

@@ -10,8 +10,8 @@ import i18next from 'i18next';
 import backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
 
-import {userRoutes} from "./routes/users.routes";
-import {roleRoutes} from './routes/role.routes';
+import {userRoutes} from "./modules/user/users.routes";
+import {roleRoutes} from './modules/role/role.routes';
 
 
 i18next
