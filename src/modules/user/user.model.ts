@@ -2,8 +2,10 @@ import connection from "../../config/db";
 import { DataType } from "sequelize-typescript";
 import { Model, Optional } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
+// import { valid } from "joi";
 
 type STATUS_TYPES = "PENDING" | "ACTIVE" | "INACTIVE";
+// const ExpRegNomUsuario='/^[a-z0-9_-]{3,16}$/';
 
 export interface UserI {
   id?: string;
@@ -40,56 +42,38 @@ User.init(
     account_name: {
       type: DataType.STRING,
       allowNull: true,
+      unique: true,
       validate: {
-        is: ["/^[a-z0-9_-]{3,16}$/"], //userName
-        max: 20,
-        min: 3,
-        isIn: {
-          args: [["en", "es"]],
-          msg: "Must be English or Espanish",
-        },
-      },
+        is: ['^[a-zñA-ZÑ0-9_-]{3,20}$','i'],
+        max: { msg:"must be less than 20 characters", args: [20] },
+        min: { msg:"must have more than 3 characters", args: [3]}
+      } 
     },
     firstName: {
       type: DataType.STRING,
       allowNull: true,
       validate: {
         is: ["^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$"], // name and lastName
-        max: 30,
-        min: 2,
-        isIn: {
-          args: [["en", "es"]],
-          msg: "Must be English or Espanish",
-        },
-      },
+        max: { msg:"must be less than 20 characters", args: [20] },
+        min: { msg:"must have more than 3 characters", args: [3]}
+      }
     },
     lastName: {
       type: DataType.STRING,
       allowNull: true,
       validate: {
         is: ["^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$"], // name and lastName
-        max: 30,
-        min: 2,
-        isIn: {
-          args: [["en", "es"]],
-          msg: "Must be English or Espanish",
-        },
+        max: { msg:"must be less than 20 characters", args: [20] },
+        min: { msg:"must have more than 3 characters", args: [3]}
       },
     },
     email: {
       type: DataType.STRING,
       allowNull: false,
+      unique: true,
       validate: {
-        is: [
-          '^[/^(([^<>()[].,;:s@"]+(.[^<>()[].,;:s@"]+)*)|(".+"))@(([^<>()[].,;:s@"]+.)+[^<>()[].,;:s@"]{2,})$/]',
-        ],
-        max: 20,
-        min: 3,
-        isIn: {
-          args: [["en", "es"]],
-          msg: "Must be English or Espanish",
-        },
-      },
+        isEmail: { msg:"must be valid Email" }
+      }
     },
     status: {
       type: DataType.ENUM("PENDING", "ACTIVE", "INACTIVE"),

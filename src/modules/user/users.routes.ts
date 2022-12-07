@@ -1,5 +1,5 @@
 import express from "express"
-import { createUser, getUsers } from "./user.controller"
+import { createUser, getUserById, getUsers, modifyUserById } from "./user.controller"
 
 const userRoutes = express.Router()
 
@@ -9,7 +9,7 @@ const userRoutes = express.Router()
  * /users/allUsers:
  *    post:
  *      tags:
- *        - Prescription
+ *        - Consulting
  *      summary: "Get Users Data"
  *      description: Endpoint wich calls to MS User and format data to be used at frontend
  *      operationId: getUsers
@@ -25,7 +25,7 @@ const userRoutes = express.Router()
  *          content:
  *            application/json:
  *              schema:
- *                $ref: "#/components/schemas/getUsersDataForConsultinOk"
+ *                $ref: "#/components/schemas/getUsersDataForConsultingOk"
  *        '400':
  *          description: Return error stack and message
  *          content:
@@ -35,9 +35,13 @@ const userRoutes = express.Router()
 
  */
 
+userRoutes.post('/create', createUser)
+
 userRoutes.get('/allUsers', getUsers)
 
-userRoutes.post('/create', createUser)
+userRoutes.get('/:id', getUserById)
+
+userRoutes.put('/:id', modifyUserById)
 
 export {
   userRoutes
