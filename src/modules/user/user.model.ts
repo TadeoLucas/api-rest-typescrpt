@@ -2,10 +2,10 @@ import connection from "../../config/db";
 import { DataType } from "sequelize-typescript";
 import { Model, Optional } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
-// import { valid } from "joi";
 
-type STATUS_TYPES = "PENDING" | "ACTIVE" | "INACTIVE";
-// const ExpRegNomUsuario='/^[a-z0-9_-]{3,16}$/';
+
+type STATUS_TYPES = "pending" | "active" | "inactive";
+
 
 export interface UserI {
   id?: string;
@@ -76,9 +76,9 @@ User.init(
       }
     },
     status: {
-      type: DataType.ENUM("PENDING", "ACTIVE", "INACTIVE"),
+      type: DataType.ENUM("pending", "active", "inactive"),
       allowNull: false,
-      defaultValue: "INACTIVE",
+      defaultValue: "inactive",
     },
   },
   {

@@ -19,6 +19,7 @@ export const createUser: RequestHandler = async (req, res) => {
       })
       if(userCreated[1] === true) return res.status(201).json(userCreated[0])
       if(userCreated[1] === false) return res.status(203).json(userCreated[0])
+      return;
     }
   }catch(err){
     logger.error(`error controler createUser ${err}`)
@@ -29,7 +30,7 @@ export const createUser: RequestHandler = async (req, res) => {
 export const getUsers: RequestHandler = async (_req, res) => {
   try{
     const users = await User.findAll();
-    res.status(200).json(users)
+    return res.status(200).json(users)
   }catch(err){
     logger.error(`error controler guetUsers ${err}`)
     return res.status(400).send({error: err})
@@ -40,7 +41,7 @@ export const getUserById: RequestHandler = async (req, res) => {
   try{
     const id = req.params.id
     const user = await User.findByPk(id);
-    res.status(200).json(user)
+    return res.status(200).json(user)
   }catch(err){
     logger.error(`error controler getUserById ${err}`)
     return res.status(400).send({error: err})
@@ -71,6 +72,26 @@ export const modifyUserById: RequestHandler = async (req, res) => {
   }
 }
 
+export const changeStateByAccountName: RequestHandler = async (req, res) => {
+  try{
+    const account_name = req.params.account_name
+    const status = req.body;
+    const statusSeted = await User.update( 
+      {
+        status: status
+      },
+      {
+        where: {account_name: account_name}
+      }
+    )
+    return res.status(200).json(statusSeted)
+
+  }catch(err){
+    logger.error(`error controler put ModifyUserById: ${err}`)
+    return res.status(400).send({error: err})
+  }
+}
+
 export const deleteUserById: RequestHandler = async (req, res) => {
   try{
     const id = req.params.id
@@ -79,7 +100,7 @@ export const deleteUserById: RequestHandler = async (req, res) => {
           id
       }
   }));
-    res.status(200).json(user)
+    return res.status(200).json(user)
   }catch(err){
     logger.error(`error controler getUserById ${err}`)
     return res.status(400).send({error: err})

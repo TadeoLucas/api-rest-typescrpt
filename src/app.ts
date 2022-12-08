@@ -4,8 +4,8 @@ import express, { Application } from 'express';
 import cors from 'cors';
 import morgan from 'morgan';
 import logger from './config/logger';
-// import swaggerUi from 'swagger-ui-express';
-// import swaggerSetup from './docs/swagger';
+import swaggerUi from 'swagger-ui-express';
+import swaggerSetup from './docs/swagger';
 import i18next from 'i18next';
 import backend from 'i18next-fs-backend';
 import * as middleware from 'i18next-http-middleware';
@@ -52,10 +52,10 @@ app.use(cors());
 
 app.use('/users', userRoutes);
 app.use('/roles', roleRoutes);
-// app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
+app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 app.get('/', (_req, res) => {
   logger.info('init-root-reggae')
-  res.send('hello word')
+  return res.send('hello word')
 })
 
 export { app };

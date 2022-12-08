@@ -1,5 +1,5 @@
 import express from "express"
-import { createUser, getUserById, getUsers, modifyUserById } from "./user.controller"
+import { createUser, getUserById, getUsers, modifyUserById, deleteUserById, changeStateByAccountName } from "./user.controller"
 
 const userRoutes = express.Router()
 
@@ -43,6 +43,9 @@ userRoutes.get('/:id', getUserById)
 
 userRoutes.put('/:id', modifyUserById)
 
+userRoutes.put('/:account_name', changeStateByAccountName)
+
+userRoutes.delete('/:id', deleteUserById)
 export {
   userRoutes
 } 
