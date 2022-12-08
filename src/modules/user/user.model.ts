@@ -1,28 +1,13 @@
 import connection from "../../config/db";
 import { DataType } from "sequelize-typescript";
-import { Model, Optional } from "sequelize";
+import { Model } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
+import { UserI, UserInput, STATUS_TYPES } from './user.interface'
 
-
-type STATUS_TYPES = "pending" | "active" | "inactive";
-
-
-export interface UserI {
-  id?: string;
-  account_name: string | undefined;
-  firstName: string | undefined;
-  lastName: string | undefined;
-  email: string;
-  status: STATUS_TYPES;
-  createdAt?: Date;
-  updatedAt?: Date;
-}
-
-export interface UserInput extends Optional<UserI, "id"> {}
-export interface UserOuput extends Required<UserI> {}
 
 class User extends Model<UserI, UserInput> {
   public id!: string;
+  // protected ?
   public account_name!: string;
   public firstName!: string;
   public lastName!: string;
