@@ -1,6 +1,6 @@
 import swaggerJSDoc, { OAS3Definition, OAS3Options } from 'swagger-jsdoc';
 import config from '../config/index';
-import { getUsersDataForConsultin400, getUsersDataForConsultinOk } from '../modules/user/prescription.swagger';
+import { getUsersDataForConsultin400, getUsersDataForConsultinOk } from '../modules/user/user.swagger';
 
 const swaggerDefinition: OAS3Definition = {
   openapi: '3.0.0',
@@ -23,7 +23,7 @@ const swaggerDefinition: OAS3Definition = {
       }
     },
     schemas: {
-      //lens prescription
+      //user data
       getUsersDataForConsultinOk: getUsersDataForConsultinOk,
       getUsersDataForConsultin400: getUsersDataForConsultin400
     }

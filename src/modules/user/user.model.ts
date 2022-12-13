@@ -29,18 +29,18 @@ User.init(
       allowNull: true,
       unique: true,
       validate: {
-        is: ['^[a-zñA-ZÑ0-9_-]{3,20}$','i'],
-        max: { msg:"must be less than 20 characters", args: [20] },
-        min: { msg:"must have more than 3 characters", args: [3]}
-      } 
+        is: ['^[a-zñA-ZÑ0-9_-]{3,20}$', 'i'],
+        max: { msg: "must be less than 20 characters", args: [20] },
+        min: { msg: "must have more than 3 characters", args: [3] }
+      }
     },
     firstName: {
       type: DataType.STRING,
       allowNull: true,
       validate: {
         is: ["^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$"], // name and lastName
-        max: { msg:"must be less than 20 characters", args: [20] },
-        min: { msg:"must have more than 3 characters", args: [3]}
+        max: { msg: "must be less than 20 characters", args: [20] },
+        min: { msg: "must have more than 3 characters", args: [3] }
       }
     },
     lastName: {
@@ -48,8 +48,8 @@ User.init(
       allowNull: true,
       validate: {
         is: ["^[A-ZÑa-zñáéíóúÁÉÍÓÚ'° ]+$"], // name and lastName
-        max: { msg:"must be less than 20 characters", args: [20] },
-        min: { msg:"must have more than 3 characters", args: [3]}
+        max: { msg: "must be less than 20 characters", args: [20] },
+        min: { msg: "must have more than 3 characters", args: [3] }
       },
     },
     email: {
@@ -57,7 +57,7 @@ User.init(
       allowNull: false,
       unique: true,
       validate: {
-        isEmail: { msg:"must be valid Email" }
+        isEmail: { msg: "must be valid Email" }
       }
     },
     status: {

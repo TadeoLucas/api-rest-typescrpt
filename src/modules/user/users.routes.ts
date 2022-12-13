@@ -1,7 +1,18 @@
 import express from "express"
-import { createUser, getUserById, getUsers, modifyUserById, deleteUserById, changeStateByAccountName } from "./user.controller"
+import {
+  createUser,
+  getUserById,
+  getUsers,
+  modifyUserById,
+  deleteUserById,
+  changeStateByAccountName
+} from "./user.controller"
 
 const userRoutes = express.Router()
+
+userRoutes.post('/create', createUser)
+
+userRoutes.get('/:id', getUserById)
 
 /**
  * Get track
@@ -35,17 +46,14 @@ const userRoutes = express.Router()
 
  */
 
-userRoutes.post('/create', createUser)
-
-userRoutes.get('/allUsers', getUsers)
-
-userRoutes.get('/:id', getUserById)
+userRoutes.get('/allUser', getUsers)
 
 userRoutes.put('/:id', modifyUserById)
 
 userRoutes.put('/:account_name', changeStateByAccountName)
 
 userRoutes.delete('/:id', deleteUserById)
+
 export {
   userRoutes
 } 

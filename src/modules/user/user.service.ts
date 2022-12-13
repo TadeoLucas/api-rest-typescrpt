@@ -4,9 +4,10 @@ import { STATUS_TYPES, UserI } from "./user.interface";
 
 
 export const createUserInDbIfNotExistService = (userForCreate: UserI) => {
-  try{
+  try {
     const response = User.findOrCreate(
-      { where: 
+      {
+        where:
         {
           account_name: userForCreate.account_name,
           firstName: userForCreate.firstName,
@@ -16,18 +17,18 @@ export const createUserInDbIfNotExistService = (userForCreate: UserI) => {
         }
       }
     )
-  return response;
-  }catch(err){
+    return response;
+  } catch (err) {
     logger.error(`error service createUserInDbIfNotExistService ${err}`)
     return new Error('could not create user')
   }
 }
 
 export const getAllUsersService = () => {
-  try{
+  try {
     const response = User.findAll();
-  return response;
-  }catch(err){
+    return response;
+  } catch (err) {
     logger.error(`error service getAllUsersService ${err}`)
     return new Error('could not find users')
   }
@@ -35,18 +36,18 @@ export const getAllUsersService = () => {
 
 
 export const getUserByIdService = (id: string) => {
-  try{
+  try {
     const response = User.findByPk(id);
-  return response;
-  }catch(err){
+    return response;
+  } catch (err) {
     logger.error(`error service getUserByIdService ${err}`)
     return new Error('could not find user')
   }
 }
 
 export const updateUserDbService = (id: string, userForUpdate: UserI) => {
-  try{
-    const response = User.update( 
+  try {
+    const response = User.update(
       {
         account_name: userForUpdate.account_name,
         firstName: userForUpdate.firstName,
@@ -55,42 +56,42 @@ export const updateUserDbService = (id: string, userForUpdate: UserI) => {
         status: userForUpdate.status
       },
       {
-        where: {id: id}
+        where: { id: id }
       }
     )
-  return response;
-  }catch(err){
+    return response;
+  } catch (err) {
     logger.error(`error service updateUserDbService ${err}`)
     return new Error('could not update user')
   }
 }
 
 export const updateStatusUserDbService = (account_name: string, status: STATUS_TYPES) => {
-  try{
-    const response = User.update( 
+  try {
+    const response = User.update(
       {
         status: status
       },
       {
-        where: {account_name: account_name}
+        where: { account_name: account_name }
       }
     )
-  return response;
-  }catch(err){
+    return response;
+  } catch (err) {
     logger.error(`error service updateStatusUserDbService ${err}`)
     return new Error('could not update status user')
   }
 }
 
 export const deletUserByIdDbService = (id: string) => {
-  try{
+  try {
     const response = User.destroy(({
       where: {
-          id
+        id
       }
     }));
-  return response;
-  }catch(err){
+    return response;
+  } catch (err) {
     logger.error(`error service deletUserByIdDbService ${err}`)
     return new Error('could not delete user')
   }
