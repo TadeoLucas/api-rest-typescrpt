@@ -18,32 +18,25 @@ userRoutes.get('/:id', getUserById)
  * Get track
  * @openapi
  * /users/allUsers:
- *    post:
+ *    get:
  *      tags:
- *        - Consulting
+ *        - Users
  *      summary: "Get Users Data"
  *      description: Endpoint wich calls to MS User and format data to be used at frontend
  *      operationId: getUsers
- *      parameters:
- *        - name: visitRecordId
- *          in: path
- *          description: visit record id wich belongs to current appointment
- *          required: false
- *          type: string
  *      responses:
  *        '200':
- *          description: Return object with all users
+ *          description: Return array of users. (see schema below)
  *          content:
  *            application/json:
  *              schema:
- *                $ref: "#/components/schemas/getUsersDataForConsultingOk"
+ *                $ref: "#/components/schemas/getUsersDataForConsultinOk"
  *        '400':
  *          description: Return error stack and message
  *          content:
  *            application/json:
  *              schema:
- *                $ref: "#/components/schemas/getUsersDataForConsulting400"
-
+ *                $ref: "#/components/schemas/getUsersDataForConsultin400"
  */
 
 userRoutes.get('/allUser', getUsers)
