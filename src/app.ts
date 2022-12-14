@@ -54,7 +54,7 @@ app.use('/users', userRoutes);
 app.use('/roles', roleRoutes);
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 app.get('/', (_req, res) => {
-  logger.info('init-root-reggae')
+  logger.info('hello word')
   return res.send('hello word')
 })
 

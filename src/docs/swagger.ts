@@ -1,6 +1,13 @@
 import swaggerJSDoc, { OAS3Definition, OAS3Options } from 'swagger-jsdoc';
 import config from '../config/index';
-import { getUsersDataForConsultin400, getUsersDataForConsultinOk } from '../modules/user/user.swagger';
+import {
+  createUserDbConsultingOk,
+  createUserDbConsulting400,
+  getUsersDataFromConsultinOk,
+  getUsersDataFromConsultin400,
+  getUserByIdFromConsultingOk,
+  getUserByIdFromConsulting400
+} from '../modules/user/user.swagger';
 
 const swaggerDefinition: OAS3Definition = {
   openapi: '3.0.0',
@@ -24,8 +31,12 @@ const swaggerDefinition: OAS3Definition = {
     },
     schemas: {
       //user data
-      getUsersDataForConsultinOk: getUsersDataForConsultinOk,
-      getUsersDataForConsultin400: getUsersDataForConsultin400
+      createUserDbConsultingOk: createUserDbConsultingOk,
+      createUserDbConsulting400: createUserDbConsulting400,
+      getUsersDataFromConsultinOk: getUsersDataFromConsultinOk,
+      getUsersDataFromConsultin400: getUsersDataFromConsultin400,
+      getUserByIdFromConsultingOk: getUserByIdFromConsultingOk,
+      getUserByIdFromConsulting400: getUserByIdFromConsulting400,
     }
   },
   security: [

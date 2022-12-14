@@ -10,7 +10,7 @@ const PORT = process.env.PORT || 3001
 
 
 
-connection.sync({force:true}).then(()=>{
+connection.sync().then(()=>{
   server.listen(PORT, () => logger.info(`it´s live XD:::PORT: ${PORT}`));
 }).catch((error) => logger.error(`ERROR db.sync: __________ ${error}`));
 

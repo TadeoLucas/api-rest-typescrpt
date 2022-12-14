@@ -1,6 +1,5 @@
 import { RequestHandler } from "express";
 import logger from "../../config/logger";
-import { formatResponse } from "../../utils/formatResponse";
 import {
   createUserInDbIfNotExistService,
   deletUserByIdDbService,
@@ -17,14 +16,7 @@ export const createUser: RequestHandler = async (req, res) => {
     if (userForCreate) {
       const userCreated = await createUserInDbIfNotExistService(userForCreate)
 
-      return formatResponse(
-        req,
-        res,
-        userCreated,
-        null,
-        'user.create.succes',
-        200
-      )
+      return res.status(200).json(userCreated)
     } else {
       throw new Error('Could not create user')
     }
@@ -32,14 +24,7 @@ export const createUser: RequestHandler = async (req, res) => {
   } catch (err) {
     logger.error(`error controler createUser ${err}`)
 
-    return formatResponse(
-      req,
-      res,
-      null,
-      [<Error>err],
-      'user.create.error',
-      400
-    )
+    return res.status(400).send({ error: err })
   }
 }
 
@@ -47,29 +32,15 @@ export const getUsers: RequestHandler = async (_req, res) => {
   try {
     const usersArray = await getAllUsersService()
     if (usersArray) {
-      return formatResponse(
-        _req,
-        res,
-        usersArray,
-        null,
-        'All_user.get.succes',
-        200
-      )
+      return res.status(200).json(usersArray)
+
     } else {
-      throw new Error('Could not find user')
+      throw new Error('Users search error')
     }
 
   } catch (err) {
     logger.error(`error controler guetUsers ${err}`)
-
-    return formatResponse(
-      _req,
-      res,
-      null,
-      [<Error>err],
-      'All_user.get.error',
-      400
-    )
+    return res.status(400).send({ error: err })
   }
 }
 
@@ -77,26 +48,14 @@ export const getUserById: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id
     const user = await getUserByIdService(id)
-
-    return formatResponse(
-      req,
-      res,
-      user,
-      null,
-      'user.get.succes',
-      200
-    )
+    if (user) {
+      return res.status(200).json(user)
+    } else {
+      res.status(400).json({ message: 'User not found' })
+    }
   } catch (err) {
     logger.error(`error controler getUserById ${err}`)
-
-    return formatResponse(
-      req,
-      res,
-      null,
-      [<Error>err],
-      'user.get.error',
-      400
-    )
+    return res.status(400).send({ error: err })
   }
 }
 
@@ -105,27 +64,11 @@ export const modifyUserById: RequestHandler = async (req, res) => {
     const id = req.params.id
     const userForUpdate = req.body;
     const numberOfFieldsChanged = await updateUserDbService(id, userForUpdate)
-
-    return formatResponse(
-      req,
-      res,
-      numberOfFieldsChanged,
-      null,
-      'user.put.succes',
-      200
-    )
+    return res.status(200).json(numberOfFieldsChanged)
 
   } catch (err) {
     logger.error(`error controler put ModifyUserById: ${err}`)
-
-    return formatResponse(
-      req,
-      res,
-      null,
-      [<Error>err],
-      'user.put.error',
-      400
-    )
+    return res.status(400).send({ error: err })
   }
 }
 
@@ -134,27 +77,11 @@ export const changeStateByAccountName: RequestHandler = async (req, res) => {
     const account_name = req.params.account_name
     const status = req.body;
     const numberStatusSeted = await updateStatusUserDbService(account_name, status)
-
-    return formatResponse(
-      req,
-      res,
-      numberStatusSeted,
-      null,
-      'user_status.put.succes',
-      200
-    )
+    return res.status(200).json(numberStatusSeted)
 
   } catch (err) {
     logger.error(`error controler put ModifyUserById: ${err}`)
-
-    return formatResponse(
-      req,
-      res,
-      null,
-      [<Error>err],
-      'user_status.put.error',
-      400
-    )
+    return res.status(400).send({ error: err })
   }
 }
 
@@ -162,25 +89,10 @@ export const deleteUserById: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id
     const numberOfUserDeleted = await deletUserByIdDbService(id)
+    return res.status(200).json(numberOfUserDeleted)
 
-    return formatResponse(
-      req,
-      res,
-      numberOfUserDeleted,
-      null,
-      'user.delete.succes',
-      200
-    )
   } catch (err) {
     logger.error(`error controler getUserById ${err}`)
-
-    return formatResponse(
-      req,
-      res,
-      null,
-      [<Error>err],
-      'user.delete.error',
-      400
-    )
+    return res.status(400).send({ error: err })
   }
 }
