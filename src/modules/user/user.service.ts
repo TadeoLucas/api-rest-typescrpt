@@ -36,19 +36,25 @@ export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
 
 
 export const loginUser = async ({ email, password }: Auth) => {
-  const checkIs = await User.findOne({
-    where: {
-      email
-    },
-  });
-  if (!checkIs) return 'USER_NOT_FOUND'
-  const passHash = checkIs.password
-  const isCorrect = await verify(password, passHash)
-  if (!isCorrect) return 'INCORRECT_PASSWORD'
-
-  const token = generateToken(checkIs.id)
-
-  return token
+  try{
+    const checkIs = await User.findOne({
+      where: {
+        email
+      },
+    });
+    if (!checkIs) return 'USER_NOT_FOUND'
+    const passHash = checkIs.password
+    const isCorrect = await verify(password, passHash)
+    if (!isCorrect) return 'INCORRECT_PASSWORD'
+  
+    const token = generateToken(checkIs.id)
+  
+    return token
+  }catch (err) {
+    logger.error(`error service loginUser ${err}`)
+    return new Error('could not generate token')
+  }
+  
 };
 
 

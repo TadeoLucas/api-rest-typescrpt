@@ -17,7 +17,6 @@ export const createUser: RequestHandler = async (req, res) => {
     const userForCreate = req.body;
     if (userForCreate) {
       const userCreated: any = await createUserInDbIfNotExistService(userForCreate)
-      // console.log('RESPONSE CREATE', userCreated._options.isNewRecord)
       const message = userCreated._options.isNewRecord ? 'user.create.succes' : 'USER.ALREADY.EXIST'
       return formatResponse(
         req,
@@ -49,10 +48,24 @@ export const createUser: RequestHandler = async (req, res) => {
 export const loginCtrl: RequestHandler = async (req, res) => {
   const { email, password } = req.body
   const responseUser = await loginUser({ email, password })
-  if(responseUser === "USER_NOT_FOUND" || responseUser ===  "INCORRECT_PASSWORD" ){
-    return res.status(403).json(responseUser)
+  if (responseUser === "USER_NOT_FOUND" || responseUser === "INCORRECT_PASSWORD") {
+    return formatResponse(
+      req,
+      res,
+      null,
+      null,
+      responseUser,
+      403
+    )
   }
-  return res.send(responseUser)
+  return formatResponse(
+    req,
+    res,
+    responseUser,
+    null,
+    'OK',
+    200
+  )
 }
 
 
