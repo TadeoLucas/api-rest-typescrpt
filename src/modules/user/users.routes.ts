@@ -1,6 +1,8 @@
 import express from "express"
+import { checkSession } from "../../middleware/session"
 import {
   createUser,
+  loginCtrl,
   getUserById,
   getUsers,
   modifyUserById,
@@ -9,6 +11,7 @@ import {
 } from "./user.controller"
 
 const userRoutes = express.Router()
+
 
 /**
  * Create track
@@ -37,6 +40,10 @@ const userRoutes = express.Router()
 
 userRoutes.post('/create', createUser)
 
+
+
+userRoutes.post('/login', loginCtrl)
+
 /**
  * Get track
  * @openapi
@@ -62,7 +69,7 @@ userRoutes.post('/create', createUser)
  *                $ref: "#/components/schemas/getUsersDataFromConsultin400"
  */
 
-userRoutes.get('/', getUsers)
+userRoutes.get('/', checkSession, getUsers)
 
 /**
  * Get track
@@ -77,7 +84,7 @@ userRoutes.get('/', getUsers)
  *      parameters:
  *        - name: id
  *          in: path
- *          description: user primary unique id
+ *          description: User primary unique id
  *          required: true
  *          type: string
  *      responses:
@@ -95,12 +102,105 @@ userRoutes.get('/', getUsers)
  *                $ref: "#/components/schemas/getUserByIdFromConsulting400"
  */
 
-userRoutes.get('/:id', getUserById)
+userRoutes.get('/:id', checkSession, getUserById)
 
-userRoutes.put('/byId/:id', modifyUserById)
+/**
+ * Put track
+ * @openapi
+ * /users/{id}:
+ *    put:
+ *      tags:
+ *        - Users
+ *      summary: "Modify Users Data by id"
+ *      description: Endpoint wich calls to microservice User 
+ *      operationId: modifyUserById
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          description: User primary unique id
+ *          required: true
+ *          type: string
+ *      responses:
+ *        '200':
+ *          description: Returns an object with the modified user (see example below)
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/putUserByIdFromConsultingOk"
+ *        '400':
+ *          description: Return error stack and message
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/putUserByIdFromConsulting400"
+ */
 
-userRoutes.put('/:account_name', changeStateByAccountName)
+userRoutes.put('/:id', checkSession, modifyUserById)
 
-userRoutes.delete('/:id', deleteUserById)
+/**
+ * Put track
+ * @openapi
+ * /users/state/{account_name}:
+ *    put:
+ *      tags:
+ *        - Users
+ *      summary: "Modify Users Data by account_name"
+ *      description: Endpoint wich calls to microservice User 
+ *      operationId: changeStateByAccountName
+ *      parameters:
+ *        - name: account_name
+ *          in: path
+ *          description: User account_name unique
+ *          required: true
+ *          type: string
+ *      responses:
+ *        '200':
+ *          description: Returns an object with the modified user (see example below)
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/putUserByAccountNameFromConsultingOk"
+ *        '400':
+ *          description: Return error stack and message
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/putUserByAccountNameFromConsulting400"
+ */
+
+userRoutes.put('/state/:account_name', checkSession, changeStateByAccountName)
+
+/**
+ * Delete track
+ * @openapi
+ * /users/{id}:
+ *    delete:
+ *      tags:
+ *        - Users
+ *      summary: "Delete Users Data by id"
+ *      description: Endpoint wich calls to microservice User 
+ *      operationId: deleteUserById
+ *      parameters:
+ *        - name: id
+ *          in: path
+ *          description: User primary unique id
+ *          required: true
+ *          type: string
+ *      responses:
+ *        '200':
+ *          description: Returns an object with the delete user (see example below)
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/deleteUserByIdFromConsultingOk"
+ *        '400':
+ *          description: Return error stack and message
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/deleteUserByIdFromConsulting400"
+ */
+
+userRoutes.delete('/:id', checkSession, deleteUserById)
 
 export { userRoutes } 

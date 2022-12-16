@@ -53,6 +53,22 @@ export const getUsersDataFromConsultinOk = {
   ]
 }
 
+export const putUserByIdFromConsultingOk = {
+  type: '',
+  example: []
+}
+
+export const putUserByAccountNameFromConsultingOk = {
+  type: '',
+  example: []
+}
+
+export const deleteUserByIdFromConsultingOk = {
+  type: '',
+  example: []
+}
+
+
 /* ---------------------------ERRORS------------------------------*/
 
 export const createUserDbConsulting400 = {
@@ -60,7 +76,7 @@ export const createUserDbConsulting400 = {
     name: "SequelizeValidationError",
     errors: [
       {
-        message: "must be a valid argument",
+        message: "must be a valid Argument",
         type: "Validation error",
         path: "email",
         value: "value_To_Change",
@@ -79,7 +95,7 @@ export const createUserDbConsulting400 = {
         validatorName: "isEmail",
         validatorArgs: [
           {
-            msg: "must be valid Email",
+            msg: "must be valid Argument",
             allow_display_name: false,
             require_display_name: false,
             allow_utf8_local_part: true,
@@ -93,7 +109,7 @@ export const createUserDbConsulting400 = {
           validatorName: "isEmail",
           validatorArgs: [
             {
-              msg: "must be valid Email",
+              msg: "must be valid Argument",
               allow_display_name: false,
               require_display_name: false,
               allow_utf8_local_part: true,
@@ -109,7 +125,10 @@ export const createUserDbConsulting400 = {
   }
 }
 
-export const getUserByIdFromConsulting400 = {}
+export const getUserByIdFromConsulting400 = {
+  type: '',
+  example: {}
+}
 
 export const getUsersDataFromConsultin400 = {
   type: "object",
@@ -118,4 +137,19 @@ export const getUsersDataFromConsultin400 = {
     message: "Users search error",
     errors: [{}]
   }
+}
+
+export const putUserByIdFromConsulting400 = {
+  type: '',
+  example: {}
+}
+
+export const putUserByAccountNameFromConsulting400 = {
+  type: '',
+  example: {}
+}
+
+export const deleteUserByIdFromConsulting400 = {
+  type: '',
+  example: {}
 }

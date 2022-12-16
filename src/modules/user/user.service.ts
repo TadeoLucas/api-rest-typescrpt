@@ -1,28 +1,56 @@
 import logger from "../../config/logger";
 import User from "./user.model";
-import { STATUS_TYPES, UserI } from "./user.interface";
+import { Auth, STATUS_TYPES, UserI } from "./user.interface";
+import { encrypt, verify } from "../../utils/bcrypt.password";
+import { generateToken } from "../../utils/jwt.handle";
 
 
-export const createUserInDbIfNotExistService = (userForCreate: UserI) => {
+export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
   try {
-    const response = User.findOrCreate(
+    const userFound = await User.findOne({
+      where: {
+        email: userForCreate.email
+      },
+    });
+
+    if (userFound) { return userFound }
+
+    const passwordHash = await encrypt(userForCreate.password)
+    const response = User.create(
       {
-        where:
-        {
-          account_name: userForCreate.account_name,
-          firstName: userForCreate.firstName,
-          lastName: userForCreate.lastName,
-          email: userForCreate.email,
-          status: userForCreate.status
-        }
+        account_name: userForCreate.account_name,
+        firstName: userForCreate.firstName,
+        lastName: userForCreate.lastName,
+        password: passwordHash,
+        email: userForCreate.email,
+        status: userForCreate.status
       }
     )
     return response;
+
   } catch (err) {
     logger.error(`error service createUserInDbIfNotExistService ${err}`)
-    return new Error('could not create user')
+    return new Error('could not find or create user')
   }
-}
+};
+
+
+export const loginUser = async ({ email, password }: Auth) => {
+  const checkIs = await User.findOne({
+    where: {
+      email
+    },
+  });
+  if (!checkIs) return 'USER_NOT_FOUND'
+  const passHash = checkIs.password
+  const isCorrect = await verify(password, passHash)
+  if (!isCorrect) return 'INCORRECT_PASSWORD'
+
+  const token = generateToken(checkIs.id)
+
+  return token
+};
+
 
 export const getAllUsersService = () => {
   try {
@@ -32,7 +60,7 @@ export const getAllUsersService = () => {
     logger.error(`error service getAllUsersService ${err}`)
     return new Error('could not find users')
   }
-}
+};
 
 
 export const getUserByIdService = (id: string) => {
@@ -43,7 +71,8 @@ export const getUserByIdService = (id: string) => {
     logger.error(`error service getUserByIdService ${err}`)
     return new Error('could not find user')
   }
-}
+};
+
 
 export const updateUserDbService = (id: string, userForUpdate: UserI) => {
   try {
@@ -64,7 +93,8 @@ export const updateUserDbService = (id: string, userForUpdate: UserI) => {
     logger.error(`error service updateUserDbService ${err}`)
     return new Error('could not update user')
   }
-}
+};
+
 
 export const updateStatusUserDbService = (account_name: string, status: STATUS_TYPES) => {
   try {
@@ -81,7 +111,8 @@ export const updateStatusUserDbService = (account_name: string, status: STATUS_T
     logger.error(`error service updateStatusUserDbService ${err}`)
     return new Error('could not update status user')
   }
-}
+};
+
 
 export const deletUserByIdDbService = (id: string) => {
   try {
@@ -95,5 +126,4 @@ export const deletUserByIdDbService = (id: string) => {
     logger.error(`error service deletUserByIdDbService ${err}`)
     return new Error('could not delete user')
   }
-}
-
+};

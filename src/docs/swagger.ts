@@ -6,7 +6,13 @@ import {
   getUsersDataFromConsultinOk,
   getUsersDataFromConsultin400,
   getUserByIdFromConsultingOk,
-  getUserByIdFromConsulting400
+  getUserByIdFromConsulting400,
+  putUserByIdFromConsultingOk,
+  putUserByIdFromConsulting400,
+  putUserByAccountNameFromConsultingOk,
+  putUserByAccountNameFromConsulting400,
+  deleteUserByIdFromConsultingOk,
+  deleteUserByIdFromConsulting400
 } from '../modules/user/user.swagger';
 
 const swaggerDefinition: OAS3Definition = {
@@ -37,6 +43,12 @@ const swaggerDefinition: OAS3Definition = {
       getUsersDataFromConsultin400: getUsersDataFromConsultin400,
       getUserByIdFromConsultingOk: getUserByIdFromConsultingOk,
       getUserByIdFromConsulting400: getUserByIdFromConsulting400,
+      putUserByIdFromConsultingOk: putUserByIdFromConsultingOk,
+      putUserByIdFromConsulting400: putUserByIdFromConsulting400,
+      putUserByAccountNameFromConsultingOk: putUserByAccountNameFromConsultingOk,
+      putUserByAccountNameFromConsulting400: putUserByAccountNameFromConsulting400,
+      deleteUserByIdFromConsultingOk: deleteUserByIdFromConsultingOk,
+      deleteUserByIdFromConsulting400: deleteUserByIdFromConsulting400
     }
   },
   security: [

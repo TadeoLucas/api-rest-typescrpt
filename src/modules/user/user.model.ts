@@ -11,6 +11,7 @@ class User extends Model<UserI, UserInput> {
   public account_name!: string;
   public firstName!: string;
   public lastName!: string;
+  public password!: string;
   public email!: string;
   public status!: STATUS_TYPES;
 
@@ -51,6 +52,10 @@ User.init(
         max: { msg: "must be less than 20 characters", args: [20] },
         min: { msg: "must have more than 3 characters", args: [3] }
       },
+    },
+    password: {
+      type: DataType.STRING,
+      allowNull: false
     },
     email: {
       type: DataType.STRING,
