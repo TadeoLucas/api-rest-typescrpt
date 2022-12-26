@@ -18,6 +18,8 @@ export interface UserI {
 export interface UserInput extends Optional<UserI, "id"> {}
 export interface UserOuput extends Required<UserI> {}
 
+// export type UserI2 = Omit<UserI, "password" & "status" >
+export type UserI2 = Pick<UserI, "account_name" | "firstName" | "lastName" | "email">
 
 export interface Auth {
   email: string

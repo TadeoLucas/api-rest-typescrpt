@@ -1,5 +1,5 @@
 import * as winston from 'winston';
-import config from '.';
+import config from './config';
 
 const customFormat = winston.format((info: any) => {
   info.message = `${new Date().toISOString()} ${info.message}`;

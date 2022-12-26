@@ -1,8 +1,10 @@
 import swaggerJSDoc, { OAS3Definition, OAS3Options } from 'swagger-jsdoc';
-import config from '../config/index';
+import config from '../config/config';
 import {
   createUserDbConsultingOk,
   createUserDbConsulting400,
+  loginUserDbConsultingOk,
+  loginUserDbConsulting400,
   getUsersDataFromConsultinOk,
   getUsersDataFromConsultin400,
   getUserByIdFromConsultingOk,
@@ -39,6 +41,8 @@ const swaggerDefinition: OAS3Definition = {
       //user data
       createUserDbConsultingOk: createUserDbConsultingOk,
       createUserDbConsulting400: createUserDbConsulting400,
+      loginUserDbConsultingOk: loginUserDbConsultingOk,
+      loginUserDbConsulting400: loginUserDbConsulting400,
       getUsersDataFromConsultinOk: getUsersDataFromConsultinOk,
       getUsersDataFromConsultin400: getUsersDataFromConsultin400,
       getUserByIdFromConsultingOk: getUserByIdFromConsultingOk,

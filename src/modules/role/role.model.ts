@@ -1,4 +1,5 @@
-import connection from "../../config/db";
+//import connection from "../../config/db";
+import { db } from "../../config/db";
 import User from "../user/user.model";
 import { DataType } from "sequelize-typescript";
 import { Model, Optional } from "sequelize";
@@ -38,7 +39,7 @@ Role.init(
   },
   {
     timestamps: true,
-    sequelize: connection,
+    sequelize: db.sequelize,
   }
 );
 

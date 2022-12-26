@@ -1,6 +1,7 @@
 import { RequestHandler } from "express";
 import logger from "../../config/logger";
 import { formatResponse } from "../../utils/formatResponse";
+import { UserI2 } from "./user.interface";
 import {
   createUserInDbIfNotExistService,
   loginUser,
@@ -18,10 +19,20 @@ export const createUser: RequestHandler = async (req, res) => {
     if (userForCreate) {
       const userCreated: any = await createUserInDbIfNotExistService(userForCreate)
       const message = userCreated._options.isNewRecord ? 'user.create.succes' : 'USER.ALREADY.EXIST'
+      const response = {
+        id: userCreated.dataValues.id,
+        account_name: userCreated.dataValues.account_name,
+        firstName: userCreated.dataValues.firstName,
+        lastName: userCreated.dataValues.lastName,
+        status: userCreated.dataValues.status,
+        createdAt: userCreated.dataValues.createdAt,
+        updatedAt: userCreated.dataValues.updatedAt,
+        userId: userCreated.dataValues.userId
+      }
       return formatResponse(
         req,
         res,
-        userCreated,
+        response,
         null,
         message,
         200
@@ -124,7 +135,7 @@ export const getUserById: RequestHandler = async (req, res) => {
       res,
       null,
       [<Error>error],
-      'ERROR_GET_USERS_BYID',
+      'ERROR_GET_USER_BYID',
       400
     )
   }
@@ -134,7 +145,8 @@ export const getUserById: RequestHandler = async (req, res) => {
 export const modifyUserById: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id
-    const userForUpdate = req.body;
+    const { account_name, firstName, lastName, email }: UserI2 = req.body;
+    const userForUpdate: any = { account_name, firstName, lastName, email }
     const numberOfFieldsChanged = await updateUserDbService(id, userForUpdate)
 
     return formatResponse(
@@ -142,7 +154,7 @@ export const modifyUserById: RequestHandler = async (req, res) => {
       res,
       numberOfFieldsChanged,
       null,
-      'user.create.succes',
+      'user.updated.succes',
       200
     )
   } catch (error) {
@@ -163,7 +175,7 @@ export const modifyUserById: RequestHandler = async (req, res) => {
 export const changeStateByAccountName: RequestHandler = async (req, res) => {
   try {
     const account_name = req.params.account_name
-    const status = req.body;
+    const { status } = req.body;
     const numberStatusSeted = await updateStatusUserDbService(account_name, status)
 
     return formatResponse(
@@ -171,7 +183,7 @@ export const changeStateByAccountName: RequestHandler = async (req, res) => {
       res,
       numberStatusSeted,
       null,
-      'user.create.succes',
+      'user.updated.succes',
       200
     )
   } catch (error) {
@@ -192,13 +204,22 @@ export const deleteUserById: RequestHandler = async (req, res) => {
   try {
     const id = req.params.id
     const numberOfUserDeleted = await deletUserByIdDbService(id)
-
+    if (numberOfUserDeleted === 0) {
+      return formatResponse(
+        req,
+        res,
+        null,
+        [],
+        'the user with the indicated Id does not exist',
+        404
+      )
+    }
     return formatResponse(
       req,
       res,
       numberOfUserDeleted,
       null,
-      'user.create.succes',
+      'user.deleted.succes',
       200
     )
   } catch (error) {

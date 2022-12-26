@@ -40,7 +40,30 @@ const userRoutes = express.Router()
 
 userRoutes.post('/create', createUser)
 
-
+/**
+ * Login track
+ * @openapi
+ * /users/login:
+ *    post:
+ *      tags:
+ *        - Users
+ *      summary: "Post Users Login"
+ *      description: Endpoint calling microservice to login user
+ *      operationId: loginCtrl
+ *      responses:
+ *        '200':
+ *          description: Returns an object with the session token
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/loginUserDbConsultingOk"
+ *        '400':
+ *          description: Returns error stack and message. (see schema below)
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/loginUserDbConsulting400"
+ */
 
 userRoutes.post('/login', loginCtrl)
 
@@ -144,7 +167,7 @@ userRoutes.put('/:id', checkSession, modifyUserById)
  *    put:
  *      tags:
  *        - Users
- *      summary: "Modify Users Data by account_name"
+ *      summary: "Modify User state by account_name"
  *      description: Endpoint wich calls to microservice User 
  *      operationId: changeStateByAccountName
  *      parameters:

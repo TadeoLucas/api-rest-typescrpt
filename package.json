@@ -7,14 +7,59 @@
     "transpile": "tsc",
     "start": "node dist/index.js",
     "dev": "ts-node-dev src/index.ts",
+    "test": "jest --coverage --no-cache",
     "lint": "ts-standard"
+  },
+  "jest": {
+    "preset": "ts-jest",
+    "testEnvironment": "node",
+    "setupFilesAfterEnv": [
+      "./test/setup.ts"
+    ],
+    "globalTeardown": "./test/teardown.ts",
+    "testTimeout": 10000,
+    "slowTestThreshold": 3,
+    "moduleFileExtensions": [
+      "js",
+      "json",
+      "ts"
+    ],
+    "rootDir": "src",
+    "testRegex": ".test.ts$",
+    "transform": {
+      "^.+\\.(t|j)s$": "ts-jest"
+    },
+    "coverageDirectory": "../reports/coverage",
+    "coveragePathIgnorePatterns": [
+      "<rootDir>/node_modules/",
+      "<rootDir>/src/i18n/",
+      "<rootDir>/src/docs/"
+    ],
+    "reporters": [
+      "default",
+      [
+        "jest-junit",
+        {
+          "suiteName": "Notifications / Tests Report",
+          "outputDirectory": "./reports/junit",
+          "outputName": "results.xml"
+        }
+      ],
+      [
+        "jest-html-reporter",
+        {
+          "pageTitle": "Notifications / Tests Report",
+          "outputPath": "./reports/html/index.html"
+        }
+      ]
+    ]
   },
   "keywords": [],
   "author": "Lucas Tadeo",
   "license": "ISC",
   "dependencies": {
     "axios": "1.2.0",
-    "bcryptjs": "^2.4.3",
+    "bcryptjs": "2.4.3",
     "cors": "2.8.5",
     "dotenv": "16.0.0",
     "express": "4.18.2",
@@ -22,7 +67,7 @@
     "i18next-fs-backend": "2.0.1",
     "i18next-http-middleware": "3.2.1",
     "joi": "17.4.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "9.0.0",
     "morgan": "1.10.0",
     "mysql2": "2.3.3",
     "sequelize": "6.26.0",
@@ -31,19 +76,26 @@
   },
   "devDependencies": {
     "@types/axios": "0.14.0",
-    "@types/bcryptjs": "^2.4.2",
+    "@types/bcryptjs": "2.4.2",
     "@types/cors": "2.8.12",
     "@types/express": "4.17.14",
     "@types/i18n": "0.13.6",
     "@types/i18next-fs-backend": "1.1.2",
+    "@types/jest": "29.2.4",
     "@types/jsonwebtoken": "^8.5.9",
     "@types/morgan": "1.9.3",
-    "@types/swagger-jsdoc": "^6.0.1",
+    "@types/supertest": "2.0.12",
+    "@types/swagger-jsdoc": "6.0.1",
     "@types/swagger-ui-express": "4.1.3",
     "@types/uuidv4": "5.0.0",
+    "jest": "29.3.1",
+    "jest-html-reporter": "3.7.0",
+    "jest-junit": "15.0.0",
     "sequelize-typescript": "2.1.5",
+    "supertest": "6.3.3",
     "swagger-jsdoc": "6.2.1",
     "swagger-ui-express": "4.4.0",
+    "ts-jest": "29.0.3",
     "ts-node": "10.9.1",
     "ts-node-dev": "2.0.0",
     "ts-standard": "12.0.1",
