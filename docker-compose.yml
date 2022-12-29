@@ -1,0 +1,46 @@
+version: '3'
+
+services:
+  consultora:
+    container_name: consultora
+    build:
+      context: .
+      dockerfile: Dockerfile-development
+    command: sh -c 'npm install; npx sequelize-cli; npm start'
+    ports:
+      - '3041:3041'
+    volumes:
+      - ./:/app
+    links:
+      - mysql:mysql_host
+    networks:
+      - myred
+    environment:
+      DB_NAME_TEST: test
+
+  mysql:
+    image: mysql:5.7
+    ports:
+      - '33099:3306'
+    volumes:
+      - ./init:/docker-entrypoint-initdb.d
+      - mysql-data:/var/lib/mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: catdecatalina1
+      MYSQL_DATABASE: mysql
+    command:
+      [
+        '--character-set-server=utf8mb4',
+        '--collation-server=utf8mb4_general_ci',
+        '--max_allowed_packet=100M'
+      ]
+    networks:
+      - myred
+
+volumes:
+  mysql-data:
+
+networks:
+  myred:
+    driver: bridge
+

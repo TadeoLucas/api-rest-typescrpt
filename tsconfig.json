@@ -16,5 +16,5 @@
     "noEmitOnError": false,
     "forceConsistentCasingInFileNames": true
   },
-  "exclude": ["node_modules"]
+  "exclude": ["src/test/*"]
 }
