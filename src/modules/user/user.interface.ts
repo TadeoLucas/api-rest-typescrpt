@@ -11,6 +11,7 @@ export interface UserI {
   password: string;
   email: string;
   status: STATUS_TYPES;
+  userId?: string | undefined;
   createdAt?: Date;
   updatedAt?: Date;
 }

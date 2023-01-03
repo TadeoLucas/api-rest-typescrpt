@@ -13,6 +13,8 @@ import {
   putUserByIdFromConsulting400,
   putUserByAccountNameFromConsultingOk,
   putUserByAccountNameFromConsulting400,
+  roleOfUserByAccountNameFromConsultingOk,
+  roleOfUserByAccountNameFromConsulting400,
   deleteUserByIdFromConsultingOk,
   deleteUserByIdFromConsulting400
 } from '../modules/user/user.swagger';
@@ -51,6 +53,8 @@ const swaggerDefinition: OAS3Definition = {
       putUserByIdFromConsulting400: putUserByIdFromConsulting400,
       putUserByAccountNameFromConsultingOk: putUserByAccountNameFromConsultingOk,
       putUserByAccountNameFromConsulting400: putUserByAccountNameFromConsulting400,
+      roleOfUserByAccountNameFromConsultingOk: roleOfUserByAccountNameFromConsultingOk,
+      roleOfUserByAccountNameFromConsulting400: roleOfUserByAccountNameFromConsulting400,
       deleteUserByIdFromConsultingOk: deleteUserByIdFromConsultingOk,
       deleteUserByIdFromConsulting400: deleteUserByIdFromConsulting400
     }

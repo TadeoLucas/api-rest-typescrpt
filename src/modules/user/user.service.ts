@@ -3,6 +3,7 @@ import User from "./user.model";
 import { Auth, STATUS_TYPES, UserI } from "./user.interface";
 import { encrypt, verify } from "../../utils/bcrypt.password";
 import { generateToken } from "../../utils/jwt.handle";
+import Role, { ACCES_TYPES } from "../role/role.model";
 
 
 export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
@@ -15,6 +16,7 @@ export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
 
     if (userFound) { return userFound }
 
+    const visitor = await Role.findOne({ where: { access: "VISITOR" } })
     const passwordHash = await encrypt(userForCreate.password)
     const response = User.create(
       {
@@ -23,7 +25,8 @@ export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
         lastName: userForCreate.lastName,
         password: passwordHash,
         email: userForCreate.email,
-        status: userForCreate.status
+        status: userForCreate.status,
+        userId: visitor?.id
       }
     )
     return response;
@@ -114,6 +117,28 @@ export const updateStatusUserDbService = (account_name: string, status: STATUS_T
   } catch (err) {
     logger.error(`error service updateStatusUserDbService ${err}`)
     return new Error('could not update status user')
+  }
+};
+
+
+export const updateRoleUserDbService = async (account_name: string, access: ACCES_TYPES) => {
+  try {
+    const role = await Role.findOne({ where: { access } })
+    if (role?.id) {
+      const rol = role.id
+      const response = User.update(
+        {
+          userId: rol
+        },
+        {
+          where: { account_name: account_name }
+        }
+      )
+      return response;
+    }
+  } catch (err) {
+    logger.error(`error service updateRoleUserDbService ${err}`)
+    return new Error('could not update role user')
   }
 };
 

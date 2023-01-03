@@ -91,6 +91,17 @@ export const putUserByAccountNameFromConsultingOk = {
   }
 }
 
+export const roleOfUserByAccountNameFromConsultingOk = {
+  type: 'object',
+  example: {
+    data: [
+      'number of fields updated'
+    ],
+    message: "role.user.updated.succes",
+    error: []
+  }
+}
+
 export const deleteUserByIdFromConsultingOk = {
   type: 'object',
   example: {
@@ -205,6 +216,15 @@ export const putUserByAccountNameFromConsulting400 = {
   example: {
     data: null,
     message: "ERROR_PUT_USER",
+    error: ['error stack object']
+  }
+}
+
+export const roleOfUserByAccountNameFromConsulting400 = {
+  type: 'object',
+  example: {
+    data: null,
+    message: "ERROR_PUT_ROLE_USER",
     error: ['error stack object']
   }
 }

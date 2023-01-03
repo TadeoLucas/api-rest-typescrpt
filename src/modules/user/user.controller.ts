@@ -9,7 +9,8 @@ import {
   getAllUsersService,
   getUserByIdService,
   updateStatusUserDbService,
-  updateUserDbService
+  updateUserDbService,
+  updateRoleUserDbService
 } from "./user.service";
 
 
@@ -194,6 +195,33 @@ export const changeStateByAccountName: RequestHandler = async (req, res) => {
       null,
       [<Error>error],
       'ERROR_PUT_USER_STATE',
+      400
+    )
+  }
+}
+
+export const changeRoleByAccountName: RequestHandler =async (req, res) => {
+  try {
+    const account_name = req.params.account_name
+    const { access } = req.body;
+    const numberStatusSeted = await updateRoleUserDbService(account_name, access)
+
+    return formatResponse(
+      req,
+      res,
+      numberStatusSeted,
+      null,
+      'role.user.updated.succes',
+      200
+    )
+  } catch (error) {
+    logger.error(`error controler put ModifyUserById: ${error}`)
+    return formatResponse(
+      req,
+      res,
+      null,
+      [<Error>error],
+      'ERROR_PUT_ROLE_USER',
       400
     )
   }

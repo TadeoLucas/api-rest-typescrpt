@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 import { UserI, UserInput, STATUS_TYPES } from './user.interface'
 
 
+
 class User extends Model<UserI, UserInput> {
   public id!: string;
   // protected ?
@@ -15,6 +16,7 @@ class User extends Model<UserI, UserInput> {
   public password!: string;
   public email!: string;
   public status!: STATUS_TYPES;
+  public userId!: string | undefined;
 
   public readonly createdAt!: Date;
   public readonly updatedAt!: Date;
@@ -70,7 +72,7 @@ User.init(
       type: DataType.ENUM("pending", "active", "inactive"),
       allowNull: false,
       defaultValue: "active",
-    },
+    }
   },
   {
     timestamps: true,

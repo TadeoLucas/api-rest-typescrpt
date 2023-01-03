@@ -7,7 +7,8 @@ import {
   getUsers,
   modifyUserById,
   deleteUserById,
-  changeStateByAccountName
+  changeStateByAccountName,
+  changeRoleByAccountName
 } from "./user.controller"
 
 const userRoutes = express.Router()
@@ -192,6 +193,39 @@ userRoutes.put('/:id', checkSession, modifyUserById)
  */
 
 userRoutes.put('/state/:account_name', checkSession, changeStateByAccountName)
+
+/**
+ * Put track
+ * @openapi
+ * /users/role/{account_name}:
+ *    put:
+ *      tags:
+ *        - Users
+ *      summary: "Modify User role by account_name"
+ *      description: Endpoint wich calls to microservice User 
+ *      operationId: changeRoleByAccountName
+ *      parameters:
+ *        - name: account_name
+ *          in: path
+ *          description: User account_name unique
+ *          required: true
+ *          type: string
+ *      responses:
+ *        '200':
+ *          description: Returns an object with the modified user (see example below)
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/roleOfUserByAccountNameFromConsultingOk"
+ *        '400':
+ *          description: Return error stack and message
+ *          content:
+ *            application/json:
+ *              schema:
+ *                $ref: "#/components/schemas/roleOfUserByAccountNameFromConsulting400"
+ */
+
+userRoutes.put('/role/:account_name', checkSession, changeRoleByAccountName)
 
 /**
  * Delete track
