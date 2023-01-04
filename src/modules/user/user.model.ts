@@ -71,7 +71,7 @@ User.init(
     status: {
       type: DataType.ENUM("pending", "active", "inactive"),
       allowNull: false,
-      defaultValue: "active",
+      defaultValue: "pending",
     }
   },
   {

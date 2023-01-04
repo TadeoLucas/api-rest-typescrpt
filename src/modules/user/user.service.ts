@@ -14,7 +14,7 @@ export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
       },
     });
 
-    if (userFound) { return userFound }
+    if (userFound) { return }
 
     const visitor = await Role.findOne({ where: { access: "VISITOR" } })
     const passwordHash = await encrypt(userForCreate.password)

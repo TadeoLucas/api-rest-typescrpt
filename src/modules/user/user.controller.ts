@@ -16,32 +16,25 @@ import {
 
 export const createUser: RequestHandler = async (req, res) => {
   try {
-    const userForCreate = req.body;
-    if (userForCreate) {
-      const userCreated: any = await createUserInDbIfNotExistService(userForCreate)
-      const message = userCreated._options.isNewRecord ? 'user.create.succes' : 'USER.ALREADY.EXIST'
+    const userCreated: any = await createUserInDbIfNotExistService(req.body)
+    if (userCreated) {
       const response = {
-        id: userCreated.dataValues.id,
         account_name: userCreated.dataValues.account_name,
         firstName: userCreated.dataValues.firstName,
         lastName: userCreated.dataValues.lastName,
         status: userCreated.dataValues.status,
-        createdAt: userCreated.dataValues.createdAt,
-        updatedAt: userCreated.dataValues.updatedAt,
-        userId: userCreated.dataValues.userId
       }
       return formatResponse(
         req,
         res,
         response,
         null,
-        message,
+        'user.create.succes',
         200
       )
     } else {
-      throw new Error('Could not find or create user')
+      throw new Error('user already exists')
     }
-
   } catch (error) {
     logger.error(`error controler createUser ${error}`)
 
@@ -200,7 +193,7 @@ export const changeStateByAccountName: RequestHandler = async (req, res) => {
   }
 }
 
-export const changeRoleByAccountName: RequestHandler =async (req, res) => {
+export const changeRoleByAccountName: RequestHandler = async (req, res) => {
   try {
     const account_name = req.params.account_name
     const { access } = req.body;

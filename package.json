@@ -7,7 +7,7 @@
     "transpile": "tsc",
     "start": "node dist/index.js",
     "dev": "ts-node-dev src/index.ts",
-    "test": "jest --coverage --no-cache",
+    "test": "NODE_ENV=testing jest --coverage --no-cache",
     "start-watch": "nodemon src/index.js ",
     "lint": "ts-standard"
   },
@@ -59,6 +59,7 @@
   "author": "Lucas Tadeo",
   "license": "ISC",
   "dependencies": {
+    "@sendgrid/mail": "7.7.0",
     "axios": "1.2.0",
     "bcryptjs": "2.4.3",
     "cors": "2.8.5",
