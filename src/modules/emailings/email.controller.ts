@@ -1,17 +1,17 @@
 import { RequestHandler } from "express";
 // import authEmail from "../../utils/sendgrid";
-import { getEmailByIdService } from "./email.service";
+import { sendEmailByUserIdService } from "./email.service";
 import { formatResponse } from "../../utils/formatResponse";
 import { sendMail } from "../../utils/nodemailer";
+import config from "../../config/config";
 
 export const sendValidateEmail: RequestHandler = async (req, res) => {
   try {
-    const validId = req.params.validId
-    const emailKey:any = await getEmailByIdService(validId)
-    if(emailKey.dataValues.verificationKey){
+    const User_Id = req.params.User_Id
+    const Key: any = await sendEmailByUserIdService(User_Id)
+    if (Key) {
+      await sendMail(`${config.email}`, Key)
 
-      
-      await sendMail('lucas.tafiviejo@gmail.com', emailKey.dataValues.verificationKey)
       return formatResponse(
         req,
         res,
@@ -21,7 +21,7 @@ export const sendValidateEmail: RequestHandler = async (req, res) => {
         200
       )
     }
-  }catch(error){
+  } catch (error) {
     return formatResponse(
       req,
       res,

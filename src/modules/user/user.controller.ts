@@ -19,6 +19,7 @@ export const createUser: RequestHandler = async (req, res) => {
     const userCreated: any = await createUserInDbIfNotExistService(req.body)
     if (userCreated) {
       const response = {
+        id: userCreated.dataValues.id,
         account_name: userCreated.dataValues.account_name,
         firstName: userCreated.dataValues.firstName,
         lastName: userCreated.dataValues.lastName,

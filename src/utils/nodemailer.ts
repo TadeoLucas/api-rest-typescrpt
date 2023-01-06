@@ -12,13 +12,13 @@ const createTrans = () => {
   return transport
 }
 
-export const sendMail = async (mail: string, validationKey: string) => {
+export const sendMail = async (mail: string, Key: string) => {
   const transporter = createTrans()
   const info = await transporter.sendMail({
     from: `${config.email}`,
     to: `${mail}`, // [correo1@g.com, correo2@g.com]
     subject: 'Bienvenido a nuestra empresa',
-    html: `${authentication_mail(validationKey)}`
+    html: `${authentication_mail(Key)}`
   })
   return info
 }

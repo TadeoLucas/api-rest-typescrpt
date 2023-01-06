@@ -1,16 +1,31 @@
 import logger from "../../config/logger";
-// import User from "./user.model";
-// import { Auth, STATUS_TYPES, UserI } from "./user.interface";
-// import { encrypt, verify } from "../../utils/bcrypt.password";
-// import { generateToken } from "../../utils/jwt.handle";
-// import Role, { ACCES_TYPES } from "../role/role.model";
-// import randomkeyMaker from "../../utils/random.key.maker";
+import { encrypt } from "../../utils/bcrypt.password";
+import randomkeyMaker from "../../utils/random.key.maker";
 import Email from "../emailings/email.model";
+import User from "../user/user.model";
+import { updateUser_emailIdById } from "../user/user.service";
 
-export const getEmailByIdService = (validId: string) => {
+export const sendEmailByUserIdService = async (id: string) => {
   try {
-    const response = Email.findByPk(validId);
-    return response;
+    const key: string = randomkeyMaker();
+    const verificationKey: string = await encrypt(key)
+
+    const emailExist = await User.findByPk(id)
+    if (emailExist?.dataValues.validId) {
+      await Email.update(
+        {
+          verificationKey: verificationKey
+        },
+        {
+          where: { id: emailExist?.dataValues.validId }
+        }
+      )
+    } else {
+      const email = await Email.create({ verificationKey });
+      await updateUser_emailIdById(id, email.id)
+    }
+    return key
+
   } catch (err) {
     logger.error(`error service getEmailByIdService ${err}`)
     return new Error('could not find key')

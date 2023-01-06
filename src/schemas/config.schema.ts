@@ -13,7 +13,9 @@ const configSchema = Joi.object({
   SERVER_PORT: Joi.number().default(3000),
   JWT_SECRET: Joi.string().required(),
   ES_NODE: Joi.string().required(),
-  DB_NAME_TEST: Joi.string()
+  DB_NAME_TEST: Joi.string(),
+  EMAIL: Joi.string().required(),
+  SENDGRID_API_KEY: Joi.string().required()
 })
   .unknown()
   .required();

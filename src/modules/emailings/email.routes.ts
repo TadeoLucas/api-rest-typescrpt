@@ -3,7 +3,7 @@ import { sendValidateEmail } from "./email.controller"
 
 const emailsRoutes = express.Router()
 
-emailsRoutes.get('/validate/:validId', sendValidateEmail)
+emailsRoutes.get('/validate/:User_Id', sendValidateEmail)
 
 export  { emailsRoutes }
 
