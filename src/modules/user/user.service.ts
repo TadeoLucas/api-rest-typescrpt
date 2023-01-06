@@ -4,6 +4,8 @@ import { Auth, STATUS_TYPES, UserI } from "./user.interface";
 import { encrypt, verify } from "../../utils/bcrypt.password";
 import { generateToken } from "../../utils/jwt.handle";
 import Role, { ACCES_TYPES } from "../role/role.model";
+import randomkeyMaker from "../../utils/random.key.maker";
+import Email from "../emailings/email.model";
 
 
 export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
@@ -16,6 +18,9 @@ export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
 
     if (userFound) { return }
 
+    const verificationKey: string = randomkeyMaker();
+    const emailId = await Email.create({ verificationKey });
+
     const visitor = await Role.findOne({ where: { access: "VISITOR" } })
     const passwordHash = await encrypt(userForCreate.password)
     const response = User.create(
@@ -26,7 +31,8 @@ export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
         password: passwordHash,
         email: userForCreate.email,
         status: userForCreate.status,
-        userId: visitor?.id
+        userId: visitor?.id,
+        validId: emailId?.id
       }
     )
     return response;

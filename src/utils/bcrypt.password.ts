@@ -1,14 +1,16 @@
 import { compare, hash } from 'bcryptjs'
 
 const encrypt = async (password: string): Promise<string> => {
-    const pass = password.toString()
-    const passwordHash: string = await hash(pass, 8)
-    return passwordHash
+  const pass = password.toString()
+  const passwordHash: string = await hash(pass, 8)
+  return passwordHash
 }
 
 const verify = async (password: string, passwordHash: string) => {
-    const isCorrect: boolean = await compare(password, passwordHash)
-    return isCorrect
+  const isCorrect: boolean = await compare(password, passwordHash)
+  return isCorrect
 }
 
 export { encrypt, verify }
+
+

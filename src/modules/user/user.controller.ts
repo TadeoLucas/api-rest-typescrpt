@@ -22,7 +22,7 @@ export const createUser: RequestHandler = async (req, res) => {
         account_name: userCreated.dataValues.account_name,
         firstName: userCreated.dataValues.firstName,
         lastName: userCreated.dataValues.lastName,
-        status: userCreated.dataValues.status,
+        status: userCreated.dataValues.status
       }
       return formatResponse(
         req,
@@ -51,26 +51,39 @@ export const createUser: RequestHandler = async (req, res) => {
 
 
 export const loginCtrl: RequestHandler = async (req, res) => {
-  const { email, password } = req.body
-  const responseUser = await loginUser({ email, password })
-  if (responseUser === "USER_NOT_FOUND" || responseUser === "INCORRECT_PASSWORD") {
+  try {
+    const { email, password } = req.body
+    const responseUser = await loginUser({ email, password })
+    if (responseUser === "USER_NOT_FOUND" || responseUser === "INCORRECT_PASSWORD") {
+      return formatResponse(
+        req,
+        res,
+        null,
+        null,
+        responseUser,
+        403
+      )
+    }
+    return formatResponse(
+      req,
+      res,
+      responseUser,
+      null,
+      'OK',
+      200
+    )
+  } catch (error) {
+    logger.error(`error controler loginCtrl ${error}`)
+
     return formatResponse(
       req,
       res,
       null,
-      null,
-      responseUser,
-      403
+      [<Error>error],
+      'ERROR_GET_TOKEN',
+      400
     )
   }
-  return formatResponse(
-    req,
-    res,
-    responseUser,
-    null,
-    'OK',
-    200
-  )
 }
 
 

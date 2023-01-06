@@ -12,7 +12,7 @@ import * as middleware from 'i18next-http-middleware';
 
 import { userRoutes } from "./modules/user/users.routes";
 import { roleRoutes } from './modules/role/role.routes';
-import { emailsRoutes } from './modules/emailings/routes';
+import { emailsRoutes } from './modules/emailings/email.routes';
 
 i18next
   .use(backend)

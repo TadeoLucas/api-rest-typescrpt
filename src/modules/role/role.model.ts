@@ -4,6 +4,7 @@ import User from "../user/user.model";
 import { DataType } from "sequelize-typescript";
 import { Model, Optional } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
+import Email from "../emailings/email.model";
 
 export type ACCES_TYPES = "SUDO" | "ADMIN" | "EDITOR" | "USER" | "VISITOR";
 
@@ -49,6 +50,15 @@ Role.hasMany(User, {
 });
 User.belongsTo(Role, {
   foreignKey: "userId",
+  onDelete: "NO ACTION"
+});
+
+Email.hasOne(User, {
+  foreignKey: "validId",
+  onDelete: "NO ACTION"
+});
+User.belongsTo(Email, {
+  foreignKey: "validId",
   onDelete: "NO ACTION"
 });
 

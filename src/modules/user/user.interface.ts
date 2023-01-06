@@ -12,6 +12,7 @@ export interface UserI {
   email: string;
   status: STATUS_TYPES;
   userId?: string | undefined;
+  validId?: string | undefined;
   createdAt?: Date;
   updatedAt?: Date;
 }

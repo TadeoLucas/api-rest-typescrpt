@@ -491,11 +491,6 @@ export const authentication_mail = (validationKey: string): string => {
                   </a>
                 </div>
               </td>
-              <a href="https://mycompany.com">
-                <img class="top-image"
-                src=https://i.pinimg.com/originals/9e/2f/47/9e2f47a7d99d260d5cfcd338208b35c7.gif
-                style="line-height: 1; width: 100px" alt="My Company Logo" />
-              </a>
             </tr>
           </table>
         </td>
