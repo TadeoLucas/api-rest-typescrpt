@@ -1,11 +1,9 @@
 import logger from "../../config/logger";
 import User from "./user.model";
 import { Auth, STATUS_TYPES, UserI } from "./user.interface";
-import { encrypt, verify } from "../../utils/bcrypt.password";
+import { encrypt, verifyCript } from "../../utils/bcrypt.password";
 import { generateToken } from "../../utils/jwt.handle";
 import Role, { ACCES_TYPES } from "../role/role.model";
-// import randomkeyMaker from "../../utils/random.key.maker";
-// import Email from "../emailings/email.model";
 
 
 export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
@@ -48,7 +46,7 @@ export const loginUser = async ({ email, password }: Auth) => {
     });
     if (!checkIs) return 'USER_NOT_FOUND'
     const passHash = checkIs.password
-    const isCorrect = await verify(password, passHash)
+    const isCorrect = await verifyCript(password, passHash)
     if (!isCorrect) return 'INCORRECT_PASSWORD'
     const token = generateToken(checkIs.id)
     return token
@@ -121,7 +119,7 @@ export const updateStatusUserDbService = (account_name: string, status: STATUS_T
   }
 };
 
-export const updateUser_emailIdById = (id: string, validId: string) => {
+export const updateUser_validIdById = (id: string, validId: string) => {
   try {
     const response = User.update(
       {

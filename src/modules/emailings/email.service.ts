@@ -3,9 +3,15 @@ import { encrypt } from "../../utils/bcrypt.password";
 import randomkeyMaker from "../../utils/random.key.maker";
 import Email from "../emailings/email.model";
 import User from "../user/user.model";
-import { updateUser_emailIdById } from "../user/user.service";
+import { updateUser_validIdById } from "../user/user.service";
 
-export const sendEmailByUserIdService = async (id: string) => {
+
+export const getEmailerById = (id: string) => {
+  const response = Email.findByPk(id)
+  return response
+}
+
+export const createKeyAndAsociateUserService = async (id: string) => {
   try {
     const key: string = randomkeyMaker();
     const verificationKey: string = await encrypt(key)
@@ -22,9 +28,9 @@ export const sendEmailByUserIdService = async (id: string) => {
       )
     } else {
       const email = await Email.create({ verificationKey });
-      await updateUser_emailIdById(id, email.id)
+      await updateUser_validIdById(id, email.id)
     }
-    return key
+    return { key, validId: emailExist?.dataValues.validId }
 
   } catch (err) {
     logger.error(`error service getEmailByIdService ${err}`)

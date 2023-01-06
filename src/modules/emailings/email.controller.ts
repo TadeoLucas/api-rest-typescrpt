@@ -1,21 +1,21 @@
 import { RequestHandler } from "express";
-// import authEmail from "../../utils/sendgrid";
-import { sendEmailByUserIdService } from "./email.service";
+import { createKeyAndAsociateUserService, getEmailerById } from "./email.service";
 import { formatResponse } from "../../utils/formatResponse";
 import { sendMail } from "../../utils/nodemailer";
 import config from "../../config/config";
+import { verifyCript } from "../../utils/bcrypt.password";
+import logger from "../../config/logger";
 
-export const sendValidateEmail: RequestHandler = async (req, res) => {
+export const sendEmailKey: RequestHandler = async (req, res) => {
   try {
     const User_Id = req.params.User_Id
-    const Key: any = await sendEmailByUserIdService(User_Id)
-    if (Key) {
-      await sendMail(`${config.email}`, Key)
-
+    const response: any = await createKeyAndAsociateUserService(User_Id)
+    if (response) {
+      await sendMail(`${config.email}`, response.key)
       return formatResponse(
         req,
         res,
-        'ok',
+        { validId: response.validId },
         null,
         'sendEmail.Validate.succes',
         200
@@ -28,6 +28,42 @@ export const sendValidateEmail: RequestHandler = async (req, res) => {
       null,
       [<Error>error],
       'ERROR_SEND_EMAIL_BYID',
+      400
+    )
+  }
+}
+
+export const validateKey: RequestHandler = async (req, res) => {
+  try {
+    const response: any = await getEmailerById(req.params.id)
+    const bool = await verifyCript(req.body.verificationKey, response?.dataValues.verificationKey)
+    if (bool) {
+      return formatResponse(
+        req,
+        res,
+        'ok',
+        null,
+        'key.Validate.succes',
+        200
+      )
+    } else {
+      return formatResponse(
+        req,
+        res,
+        null,
+        null,
+        'INVALID KEY',
+        403
+      )
+    }
+  } catch (error) {
+    logger.error('controler validateKey error', error)
+    return formatResponse(
+      req,
+      res,
+      null,
+      [<Error>error],
+      'ERROR_GET_VALIDATE_KEY',
       400
     )
   }

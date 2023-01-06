@@ -1,14 +1,16 @@
 import express from "express"
-import { sendValidateEmail } from "./email.controller"
+import { checkSession } from '../../middleware/session'
+import { sendEmailKey, validateKey } from "./email.controller"
 
 const emailsRoutes = express.Router()
 
-emailsRoutes.get('/validate/:User_Id', sendValidateEmail)
+/* sendEmailKey  retorna el id de la llave para validar */
 
-export  { emailsRoutes }
+emailsRoutes.get('/sendBy/:User_Id', checkSession, sendEmailKey);
 
-/*
-crear un  numero de 6 digitos aleatoriamente // ruta de creacion
-encriptarlo 
-enviarlo por mail
-*/
+/* requiere por params el id de la llave para validar */
+/** requiere por body la clave alfanumerica enviada al mail */
+
+emailsRoutes.get('/validate/:id', checkSession, validateKey)
+
+export { emailsRoutes }

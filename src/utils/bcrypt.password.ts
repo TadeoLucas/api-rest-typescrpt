@@ -6,11 +6,9 @@ const encrypt = async (password: string): Promise<string> => {
   return passwordHash
 }
 
-const verify = async (password: string, passwordHash: string) => {
+const verifyCript = async (password: string, passwordHash: string) => {
   const isCorrect: boolean = await compare(password, passwordHash)
   return isCorrect
 }
 
-export { encrypt, verify }
-
-
+export { encrypt, verifyCript }
