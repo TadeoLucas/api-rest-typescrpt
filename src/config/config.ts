@@ -19,6 +19,7 @@ const config = {
   serverPort: envVars.DB_PORT,
   port: envVars.SERVER_PORT,
   sendgrid: envVars.SENDGRID_API_KEY,
+  email: envVars.EMAIL,
   db: {
     dialect: envVars.DB_DIALECT,
     name: envVars.DB_NAME,
