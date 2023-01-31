@@ -1,7 +1,7 @@
 import { Optional } from "sequelize";
 
 
-export type STATUS_TYPES = "pending" | "active" | "inactive";
+export type STATUS_TYPES = "PENDING" | "ACTIVE" | "INACTIVE";
 
 export interface UserI {
   id?: string;
