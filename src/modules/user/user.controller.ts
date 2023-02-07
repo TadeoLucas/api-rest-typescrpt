@@ -105,7 +105,7 @@ export const getUsers: RequestHandler = async (req, res) => {
     }
 
   } catch (error) {
-    logger.error(`error controler guetUsers ${error}`)
+    logger.error(`error controler getUsers ${error}`)
 
     return formatResponse(
       req,

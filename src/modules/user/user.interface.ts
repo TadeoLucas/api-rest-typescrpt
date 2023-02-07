@@ -11,8 +11,8 @@ export interface UserI {
   password: string;
   email: string;
   status: STATUS_TYPES;
-  userId?: string | undefined;
-  validId?: string | undefined;
+  roleId?: string | undefined;
+  emailId?: string | undefined;
   createdAt?: Date;
   updatedAt?: Date;
 }

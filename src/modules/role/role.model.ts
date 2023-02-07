@@ -1,10 +1,11 @@
 //import connection from "../../config/db";
 import { db } from "../../config/db";
-import User from "../user/user.model";
 import { DataType } from "sequelize-typescript";
 import { Model, Optional } from "sequelize";
 import { v4 as uuidv4 } from "uuid";
+import User from "../user/user.model";
 import Email from "../emailings/email.model";
+import Video from "../video/video.model";
 
 export type ACCES_TYPES = "SUDO" | "ADMIN" | "EDITOR" | "USER" | "VISITOR";
 
@@ -45,22 +46,30 @@ Role.beforeCreate((role) => {
 
 
 Role.hasMany(User, {
-  foreignKey: "userId",
+  foreignKey: "roleId",
   onDelete: "NO ACTION"
 });
 User.belongsTo(Role, {
-  foreignKey: "userId",
+  foreignKey: "roleId",
   onDelete: "NO ACTION"
 });
 
 Email.hasOne(User, {
-  foreignKey: "validId",
+  foreignKey: "emailId",
   onDelete: "NO ACTION"
 });
 User.belongsTo(Email, {
-  foreignKey: "validId",
+  foreignKey: "emailId",
   onDelete: "NO ACTION"
 });
 
+User.hasMany(Video, {
+  foreignKey: "userId",
+  onDelete: "NO ACTION"
+});
+Video.belongsTo(User, {
+  foreignKey: "userId",
+  onDelete: "NO ACTION"
+});
 
 export default Role;

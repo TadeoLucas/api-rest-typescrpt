@@ -16,7 +16,7 @@ class User extends Model<UserI, UserInput> {
   public password!: string;
   public email!: string;
   public status!: STATUS_TYPES;
-  public userId!: string | undefined;
+  public roleId!: string | undefined;
   public emailId!: string | undefined;
 
   public readonly createdAt!: Date;

@@ -13,6 +13,7 @@ import * as middleware from 'i18next-http-middleware';
 import { userRoutes } from "./modules/user/users.routes";
 import { roleRoutes } from './modules/role/role.routes';
 import { emailsRoutes } from './modules/emailings/email.routes';
+import { videoRoutes } from './modules/video/video.routes';
 
 i18next
   .use(backend)
@@ -53,6 +54,7 @@ app.use(cors());
 app.use('/users', userRoutes);
 app.use('/roles', roleRoutes);
 app.use('/email', emailsRoutes);
+app.use('/videos', videoRoutes)
 app.use('/api-doc', swaggerUi.serve, swaggerUi.setup(swaggerSetup));
 
 app.get('/', (_req, res) => {

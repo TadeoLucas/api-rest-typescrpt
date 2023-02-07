@@ -25,7 +25,7 @@ export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
         password: passwordHash,
         email: userForCreate.email,
         status: userForCreate.status,
-        userId: visitor?.id
+        roleId: visitor?.id
       }
     )
     return response;
@@ -119,11 +119,11 @@ export const updateStatusUserDbService = (account_name: string, status: STATUS_T
   }
 };
 
-export const updateUser_validIdById = (id: string, validId: string) => {
+export const updateUser_validIdById = (id: string, emailId: string) => {
   try {
     const response = User.update(
       {
-        validId: validId
+        emailId: emailId
       },
       {
         where: { id: id }
@@ -140,10 +140,10 @@ export const updateRoleUserDbService = async (account_name: string, access: ACCE
   try {
     const role = await Role.findOne({ where: { access } })
     if (role?.id) {
-      const rol = role.id
+      const roleId = role.id
       const response = User.update(
         {
-          userId: rol
+          roleId
         },
         {
           where: { account_name: account_name }

@@ -17,20 +17,20 @@ export const createKeyAndAsociateUserService = async (id: string) => {
     const verificationKey: string = await encrypt(key)
 
     const emailExist = await User.findByPk(id)
-    if (emailExist?.dataValues.validId) {
+    if (emailExist?.dataValues.emailId) {
       await Email.update(
         {
           verificationKey: verificationKey
         },
         {
-          where: { id: emailExist?.dataValues.validId }
+          where: { id: emailExist?.dataValues.emailId }
         }
       )
     } else {
       const email = await Email.create({ verificationKey });
       await updateUser_validIdById(id, email.id)
     }
-    return { key, validId: emailExist?.dataValues.validId }
+    return { key, validId: emailExist?.dataValues.emailId }
 
   } catch (err) {
     logger.error(`error service getEmailByIdService ${err}`)
