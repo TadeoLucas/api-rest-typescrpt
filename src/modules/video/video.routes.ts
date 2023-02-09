@@ -1,25 +1,17 @@
 import express from "express"
-import { getVideos, createControler, updateVideoControler, getVideoById } from "./video.controller"
+import { checkSession } from "../../middleware/session"
+import { getVideos, createControler, updateVideoControler, getVideoById, deleteVideoById } from "./video.controller"
 
 const videoRoutes = express.Router()
 
-videoRoutes.post('/create', createControler)
+videoRoutes.post('/create', checkSession, createControler)
 
-videoRoutes.put('/update', updateVideoControler)
+videoRoutes.put('/update', checkSession, updateVideoControler)
 
 videoRoutes.get('//:id', getVideoById)
 
 videoRoutes.get('/all', getVideos)
 
+videoRoutes.delete('/id', checkSession, deleteVideoById)
+
 export  { videoRoutes }
-
-
-
-/*
-
- -  POST |  /videos/create    [ has required fields ]
- -  PUT |  /videos/update   [ has required fields ] 
- -  GET |  /videos//:id   { params:  [ “id” ] }
- -  GET |  /videos/all    {  query:  [“date_since“, ”date_to” ] }
-
- */

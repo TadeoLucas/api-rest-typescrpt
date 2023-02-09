@@ -4,7 +4,7 @@ import { Auth, STATUS_TYPES, UserI } from "./user.interface";
 import { encrypt, verifyCript } from "../../utils/bcrypt.password";
 import { generateToken } from "../../utils/jwt.handle";
 import Role, { ACCES_TYPES } from "../role/role.model";
-
+import { set } from "local-storage";
 
 export const createUserInDbIfNotExistService = async (userForCreate: UserI) => {
   try {
@@ -49,6 +49,12 @@ export const loginUser = async ({ email, password }: Auth) => {
     const isCorrect = await verifyCript(password, passHash)
     if (!isCorrect) return 'INCORRECT_PASSWORD'
     const token = generateToken(checkIs.id)
+    if (checkIs && isCorrect) {
+       set('user', JSON.stringify(checkIs.dataValues))
+      // console.log("🚀 ~ file: user.service.ts:56 ~ loginUser ~ seter", seter)
+      // const user = get('user')
+      // console.log("🚀 ~ file: user.service.ts:56 ~ loginUser ~ user", user)
+    }
     return token
 
   } catch (err) {
@@ -134,7 +140,7 @@ export const updateUser_validIdById = (id: string, emailId: string) => {
     logger.error(`error service updateStatusUserDbService ${err}`)
     return new Error('could not update status user')
   }
-} 
+}
 
 export const updateRoleUserDbService = async (account_name: string, access: ACCES_TYPES) => {
   try {

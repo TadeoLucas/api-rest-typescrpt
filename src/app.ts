@@ -51,6 +51,20 @@ app.use(express.urlencoded({ extended: true }))
 app.use(cors());
 
 
+// const allowedHost = process.env.NODE_ENV === 'DEV' ? process.env.LOCAL_HOST : process.env.PROD_HOST;
+// const allowedHost2 = process.env.NODE_ENV === 'DEV' ? process.env.LOCAL_HOST : process.env.PR_HOST
+app.use((_req, res, next) => {
+  // res.header('Access-Control-Allow-Origin', allowedHost);
+  // res.header('Access-Control-Allow-Origin', allowedHost2);
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Credentials', `${true}`);
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+  next();
+});
+
+
 app.use('/users', userRoutes);
 app.use('/roles', roleRoutes);
 app.use('/email', emailsRoutes);

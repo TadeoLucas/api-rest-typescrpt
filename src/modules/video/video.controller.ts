@@ -1,12 +1,21 @@
 import { RequestHandler } from "express";
 import logger from "../../config/logger";
 import { formatResponse } from "../../utils/formatResponse";
-import { getAllVideosService, createVideoService, updateVideoService, getVideoByIdService } from "./video.service";
+import { getAllVideosService, createVideoService, updateVideoService, getVideoByIdService, deleteVideoByIdService } from "./video.service";
 
 export const createControler: RequestHandler = async (req, res) => {
   try {
     const videoCreated: any = await createVideoService(req.body)
-    if (videoCreated) {
+    if (videoCreated === 'URL Video already exist') {
+      return formatResponse(
+        req,
+        res,
+        null,
+        [],
+        videoCreated,
+        400
+      )
+    } else {
       const response = {
         id: videoCreated.dataValues.id,
         title: videoCreated.dataValues.title,
@@ -40,7 +49,7 @@ export const createControler: RequestHandler = async (req, res) => {
 export const updateVideoControler: RequestHandler = async (req, res) => {
   try {
     const { id, title, comments } = req.body;
-    if(id == undefined) throw new Error('id field is required')
+    if (id == undefined) throw new Error('id field is required')
     const response = await updateVideoService({ id, title, comments })
     if (response) {
       return formatResponse(
@@ -127,7 +136,41 @@ export const getVideos: RequestHandler = async (req, res) => {
   }
 }
 
+export const deleteVideoById: RequestHandler = async (req, res) => {
+  try {
+    const id = req.params.id
+    const numberOfVideoDeleted = await deleteVideoByIdService(id)
+    if (numberOfVideoDeleted === 0) {
+      return formatResponse(
+        req,
+        res,
+        null,
+        [],
+        'the video with the indicated Id does not exist',
+        404
+      )
+    }
+    return formatResponse(
+      req,
+      res,
+      numberOfVideoDeleted,
+      null,
+      'video.deleted.succes',
+      200
+    )
+  } catch (error) {
+    logger.error(`error controler deleteVideoById ${error}`)
 
+    return formatResponse(
+      req,
+      res,
+      null,
+      [<Error>error],
+      'ERROR_DELETE_VIDEO',
+      400
+    )
+  }
+}
 
 
 /*

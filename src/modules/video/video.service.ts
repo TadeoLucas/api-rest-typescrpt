@@ -1,15 +1,23 @@
 import logger from "../../config/logger";
 import { VideoI2, VideoI3 } from "./video.interface";
-import Video from './video.model'
+import Video from './video.model';
+import { get } from "local-storage";
 
 
-export const createVideoService = (body: VideoI2) => {
+export const createVideoService = async (body: VideoI2) => {
   try {
-    const { title, comments, url } = body
+    const { title, comments, url } = body;
+    const videoExist = await Video.findOne({
+      where: { url: url }
+    })
+    if (videoExist) return 'URL Video already exist'
+    const user: any = get('user')
+    console.log("🚀 ~ file: video.service.ts:15 ~ EEEEEEEEEE ~ user", user)
     const videoCreated = Video.create({
       title,
       comments,
-      url
+      url,
+      userId: user.id
     })
     return videoCreated
 
@@ -22,7 +30,7 @@ export const createVideoService = (body: VideoI2) => {
 export const updateVideoService = (body: VideoI3) => {
   try {
     const { id, title, comments } = body;
-    if(title && comments){
+    if (title && comments) {
       const response = Video.update(
         {
           title,
@@ -34,7 +42,7 @@ export const updateVideoService = (body: VideoI3) => {
       )
       return response;
     }
-    if(comments){
+    if (comments) {
       const response = Video.update(
         {
           comments
@@ -45,7 +53,7 @@ export const updateVideoService = (body: VideoI3) => {
       )
       return response;
     }
-    if(title){
+    if (title) {
       const response = Video.update(
         {
           title
@@ -86,7 +94,7 @@ export const getVideoByIdService = (id: string) => {
 };
 
 
-export const deletVideoByIdService = (id: string) => {
+export const deleteVideoByIdService = (id: string) => {
   try {
     const response = Video.destroy(({
       where: {
